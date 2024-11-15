@@ -1,7 +1,5 @@
 import nltk
-
-
-
+import numpy as np
 from nltk.stem.porter import PorterStemmer
 stemmer = PorterStemmer()
 
@@ -15,11 +13,17 @@ def stem(word):
     return  stemmer.stem(word.lower())
 
 
-def bag_of_words(tokenizard_sentence, all_words):
-    pass
+def bag_of_words(tokenized_sentence, all_words):
+    """
+    sentence = ["hello","how","are","you"],
+    words = ["hi","hello","I","you","bye","thank","cool"]
+    bag = [0 ,1 ,0 ,1 ,0 ,0 ,0]
+    Here we are just checking the sentence with the words list and if the word is in the list we put 1 if not we put 0 in the list
+    """
+    tokenized_sentence = [stem(w) for w in tokenized_sentence]
+    bag = np.zeros(len(all_words),dtype=np.float32)
+    for idx,w in enumerate(all_words):
+        if w in tokenized_sentence:
+            bag[idx] = 1.0
 
-
-
-words = ["Organize","organizes","organizing"]
-stemmed_words = [stem(w) for w in words]
-print(stemmed_words)
+    return bag
