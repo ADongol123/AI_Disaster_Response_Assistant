@@ -60,7 +60,6 @@ learning_rate = 0.001
 input_size = len(X_train[0])
 hidden_size = 8
 output_size = len(tags)
-print(input_size, output_size)
 
 
 class ChatDataset(Dataset):
@@ -114,3 +113,21 @@ for epoch in range(num_epochs):
         print(f'Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item():.4f}')
 
 print(f'final loss: {loss.item():.4f}')
+
+
+
+# save the data
+
+data = {
+    "model_state":model.state_dict(),
+    "input_size":input_size,
+    "output_size":output_size,
+    "hidden_size":hidden_size,
+    "all_words":all_words,
+    "tags":tags,
+}
+
+FILE = "data.pth" # for pytorch
+# this will serialize it and save it to a pickel file
+torch.save(data,FILE)
+print(f"The training has been complete and it has been saved to {FILE}")
